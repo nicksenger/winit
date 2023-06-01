@@ -34,8 +34,11 @@
 //!
 //! [`EventLoop::run(...)`]: crate::event_loop::EventLoop::run
 //! [`ControlFlow::WaitUntil`]: crate::event_loop::ControlFlow::WaitUntil
-use instant::Instant;
 use std::path::PathBuf;
+#[cfg(not(wasm_platform))]
+use std::time::Instant;
+#[cfg(wasm_platform)]
+use web_time::Instant;
 
 #[cfg(doc)]
 use crate::window::Window;
