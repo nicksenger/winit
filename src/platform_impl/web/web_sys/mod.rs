@@ -72,13 +72,11 @@ pub fn set_canvas_size(
     style: &CssStyleDeclaration,
     new_size: LogicalSize<f64>,
 ) {
-    let scale_factor = scale_factor(&web_sys::window().expect("Failed to obtain window"));
+    if !document.contains(Some(raw)) || style.get_property_value("display").unwrap() == "none" {
+        return;
+    }
 
     let new_size = fix_canvas_size(style, new_size);
-    let physical_size = new_size.to_physical(scale_factor);
-
-    raw.set_width(physical_size.width);
-    raw.set_height(physical_size.height);
 
     set_canvas_style_property(raw, "width", &format!("{}px", new_size.width));
     set_canvas_style_property(raw, "height", &format!("{}px", new_size.height));
